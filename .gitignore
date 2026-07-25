@@ -1,0 +1,20 @@
+# Auto-generated output files — do not track
+parsed_iocs.json
+iocs_export.csv
+analysis_output.json
+*.json
+
+# OS & editor artifacts
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+__pycache__/
+*.pyc
+*.pyo
+.vscode/
+.idea/
+
+# Python env
+venv/
+.env
