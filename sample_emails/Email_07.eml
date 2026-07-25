@@ -1,29 +1,22 @@
 From: Microsoft account team <security-noreply@micros0ft-online.com>
-Reply-To: no-reply@micros0ft-online.com
-Return-Path: bounce@micros0ft-online.com
 To: aditya.rao@solvexindustries.com
 Subject: Unusual sign-in activity detected on your Microsoft account
-Date: Fri, 10 Jul 2026 02:03:00 -0000
+Date: Fri, 10 Jul 2026 02:03:00 +0530
 Authentication-Results: spf=fail; dkim=fail; dmarc=fail
+Received: from host-77-91-134-6.vpn-exit.net (77.91.134.6)
+Reply-To: no-reply@micros0ft-online.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 
 Microsoft account
 
-We detected an unusual sign-in attempt on your account from a new device in L=
-agos, Nigeria on 10 July 2026 at 1:58 AM. If this wasn't you, your account ma=
-y be compromised.
+We detected an unusual sign-in attempt from Lagos, Nigeria on 10 July at 1:58=
+ AM. Your account may be compromised.
 
-For your security, we have temporarily limited access to your account. To res=
-tore full access, please verify your identity within 12 hours by confirming y=
-our account details using the secure link below:
+Verify your identity within 12 hours: http://login.micros0ft-online.com/secur=
+e/verify-identity?ref=3Daditya.rao
 
-http://login.micros0ft-online.com/secure/verify-identity?ref=3Daditya.rao
+If you do not recognise this, review your account immediately.
 
-If you don't recognise this activity, we strongly recommend you review your a=
-ccount immediately to prevent unauthorized access to your email, OneDrive fil=
-es and Teams messages.
-
-Thanks,
 The Microsoft account team

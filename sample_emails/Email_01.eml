@@ -1,30 +1,24 @@
-From: IT Helpdesk =?utf-8?b?4oCT?= Solvex Industries
- <ithelpdesk@solvexindustries.com>
-Reply-To: ithelpdesk@solvexindustries.com
-Return-Path: ithelpdesk@solvexindustries.com
+From: IT Helpdesk - Solvex Industries <ithelpdesk@solvexindustries.com>
 To: aditya.rao@solvexindustries.com
-Subject: Password Expiry Reminder =?utf-8?b?4oCT?= Action Needed Within 5 Days
-Date: Fri, 03 Jul 2026 10:12:00 -0000
+Subject: Password Expiry Reminder - Action Needed Within 5 Days
+Date: Fri, 03 Jul 2026 10:12:00 +0530
 Authentication-Results: spf=pass; dkim=pass; dmarc=pass (TLS 1.3)
+Received:
+ from mail.solvexindustries.com (192.168.14.22) by mx.solvexindustries.com
+Reply-To: ithelpdesk@solvexindustries.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 
 Dear Aditya,
 
-This is an automated reminder from the IT Helpdesk. Our records show that you=
-r network account password is due to expire in 5 days, as per the company's 9=
-0-day password rotation policy.
+This is an automated reminder from the IT Helpdesk. Your network account pass=
+word is due to expire in 5 days as per the company's 90-day password rotation=
+ policy.
 
-To avoid any interruption to your email or system access, please update your =
-password before the expiry date. You can do this at any time by logging into =
-the internal IT Service Portal from your office desktop or the VPN-connected =
-laptop and navigating to Account Settings > Change Password.
-
-If you face any difficulty resetting your password, please raise a ticket thr=
-ough the IT Service Portal or contact the Helpdesk extension 204 during worki=
-ng hours. Do not share your password with anyone, including IT staff, over em=
-ail, call or chat.
+To avoid interruption, please update your password by logging into the intern=
+al IT Service Portal. Do not share your password with anyone, including IT st=
+aff.
 
 Regards,
 IT Helpdesk Team

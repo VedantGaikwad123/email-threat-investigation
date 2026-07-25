@@ -1,9 +1,5 @@
 # 📧 Email Threat Investigation & Analysis — SOC Project
 
-> **Case File:** CA-ETI-01 | **Target Org:** Solvex Industries Pvt. Ltd.  
-> **Program:** Cryptonic Area Cybersecurity & Ethical Hacking Internship  
-> **Analyst Role:** SOC Tier 2 / Threat Intelligence Analyst
-
 A complete, end-to-end **Security Operations Center (SOC) email threat investigation** covering forensic header analysis, IOC extraction, OSINT verification, risk classification, and automated Python tooling for parsing raw `.eml` artifacts.
 
 ---
@@ -215,11 +211,7 @@ Modules used internally: `email`, `os`, `re`, `json`, `hashlib`, `argparse`, `ur
 ## 👤 Author
 
 **Vedant Gaikwad**  
-Cybersecurity & Ethical Hacking Intern — Cryptonic Area Program  
 GitHub: [@VedantGaikwad123](https://github.com/VedantGaikwad123)
 
 ---
 
-## 📄 License
-
-This project is created for educational and internship assessment purposes under the Cryptonic Area Program.

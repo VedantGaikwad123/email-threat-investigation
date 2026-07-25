@@ -1,39 +1,34 @@
 From: Accounts Receivable <accounts.receivable@shreeganesh-logistics.in>
-Reply-To: accounts.receivable@shreeganesh-logistics.in
-Return-Path: mailer@shreeganesh-logistics.in
 To: aditya.rao@solvexindustries.com
-Subject: Pending Invoice =?utf-8?b?4oCT?= Please Review & Process on Priority
-Date: Mon, 13 Jul 2026 05:58:00 -0000
+Subject: Pending Invoice - Please Review & Process on Priority
+Date: Mon, 13 Jul 2026 17:58:00 +0530
 Authentication-Results:
  spf=fail (domain not authorised to send); dkim=none; dmarc=fail
+Received: from webmail-host-4.sharedhosting-cluster.com (41.203.88.17)
+Reply-To: accounts.receivable@shreeganesh-logistics.in
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="===============6017084073977903798=="
+Content-Type: multipart/mixed; boundary="===============3213657102361692833=="
 
---===============6017084073977903798==
+--===============3213657102361692833==
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
 Dear Sir,
 
 Please find attached the pending transport invoice for the last three consign=
-ments dispatched to your Pune warehouse. Kindly review and process the paymen=
-t at the earliest as our accounts are overdue for closing this month.
+ments to your Pune warehouse. Kindly process the payment at the earliest.
 
-The attached file also contains the delivery challans and updated GST details=
- for your reference. Please enable editing/macros if prompted so all the invo=
-ice tables display correctly, as the file was generated on an older billing s=
-ystem.
+Please enable editing/macros if prompted so all invoice tables display correc=
+tly, as the file was generated on an older billing system.
 
-Link: http://shreeganesh-logistics.in.invoice-view-secure.com/download?file=
-=3Dinv2207
+Download here: http://shreeganesh-logistics.in.invoice-view-secure.com/downlo=
+ad?file=3Dinv2207
 
-Kindly confirm receipt of this email and expected date of payment.
-
-Thanking you,
+Thank you,
 Accounts Receivable Team
 Shree Ganesh Logistics
 
---===============6017084073977903798==
+--===============3213657102361692833==
 Content-Type: application/octet-stream
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
@@ -42,4 +37,4 @@ MIME-Version: 1.0
 
 TU9DS19ET0NNX1ZCQV9NQUNST19QQVlMT0FE
 
---===============6017084073977903798==--
+--===============3213657102361692833==--

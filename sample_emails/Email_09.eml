@@ -1,38 +1,32 @@
 From: Tally Solutions Billing <billing@tallysolutions.com>
-Reply-To: billing@tallysolutions.com
-Return-Path: billing@tallysolutions.com
 To: aditya.rao@solvexindustries.com
-Cc: accounts@solvexindustries.com
-Subject: Your TallyPrime Cloud Subscription Renewal Invoice =?utf-8?b?4oCT?=
- INV-88213
-Date: Sat, 11 Jul 2026 10:00:00 -0000
+Subject: Your TallyPrime Cloud Subscription Renewal Invoice - INV-88213
+Date: Sat, 11 Jul 2026 10:00:00 +0530
 Authentication-Results: spf=pass; dkim=pass; dmarc=pass (TLS 1.3)
+Received: from mta-out.tallysolutions.com (203.0.113.44)
+Reply-To: billing@tallysolutions.com
+Cc: accounts@solvexindustries.com
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="===============2646619736508499168=="
+Content-Type: multipart/mixed; boundary="===============2959767237440612161=="
 
---===============2646619736508499168==
+--===============2959767237440612161==
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
 Dear Customer,
 
-This is to notify you that your TallyPrime Cloud annual subscription (License=
- ID: TP-2291-SOLVEX) is due for renewal on 20 July 2026. The renewal invoice =
-INV-88213 for Rs. 32,500/- (inclusive of GST) is attached for your records.
+Your TallyPrime Cloud annual subscription (License ID: TP-2291-SOLVEX) is due=
+ for renewal on 20 July 2026. Invoice INV-88213 for Rs. 32,500/- (inclusive o=
+f GST) is attached.
 
-Payments can be made through your existing registered payment method on the T=
-ally Customer Portal, or via NEFT/RTGS to the bank account already on file wi=
-th our billing team =E2=80=94 no bank details have changed.
-
-If you wish to modify your plan or add additional user licenses before renewa=
-l, please contact your Tally partner or our billing support at billing@tallys=
-olutions.com.
+Payments can be made through your registered payment method. No bank details =
+have changed.
 
 Thank you for being a valued customer.
 
-Tally Solutions Pvt. Ltd. =E2=80=93 Billing Team
+Tally Solutions Pvt. Ltd.
 
---===============2646619736508499168==
+--===============2959767237440612161==
 Content-Type: application/octet-stream
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="INV-88213_TallyPrime_Renewal.pdf"
@@ -40,4 +34,4 @@ MIME-Version: 1.0
 
 TU9DS19QREZfVEFMTFlfU1VCU0NSSVBUSU9OX0lOVk9JQ0U=
 
---===============2646619736508499168==--
+--===============2959767237440612161==--

@@ -2,22 +2,29 @@
   {
     "file": "Email_01.eml",
     "headers": {
-      "From": "IT Helpdesk \u2013 Solvex Industries <ithelpdesk@solvexindustries.com>",
+      "From": "IT Helpdesk - Solvex Industries <ithelpdesk@solvexindustries.com>",
       "To": "aditya.rao@solvexindustries.com",
+      "Cc": "N/A",
+      "Bcc": "N/A",
       "Reply-To": "ithelpdesk@solvexindustries.com",
-      "Subject": "Password Expiry Reminder \u2013 Action Needed Within 5 Days",
-      "Date": "Fri, 03 Jul 2026 10:12:00 -0000",
+      "Return-Path": "N/A",
+      "Subject": "Password Expiry Reminder - Action Needed Within 5 Days",
+      "Date": "Fri, 03 Jul 2026 10:12:00 +0530",
       "Message-ID": "N/A",
-      "Authentication-Results": "spf=pass; dkim=pass; dmarc=pass (TLS 1.3)",
-      "Return-Path": "ithelpdesk@solvexindustries.com"
+      "Authentication-Results": "spf=pass; dkim=pass; dmarc=pass (TLS 1.3)"
     },
+    "received_hops": [
+      "from mail.solvexindustries.com (192.168.14.22) by mx.solvexindustries.com"
+    ],
     "attachments": [],
     "extracted_links": [],
     "iocs": {
       "ips": [],
       "domains": [],
+      "external_unverified_domains": [],
       "urls": [],
-      "hashes": []
+      "hashes": [],
+      "suspicious_filenames": []
     }
   },
   {
@@ -25,78 +32,108 @@
     "headers": {
       "From": "IT Support Desk <support@solvex-industries-helpdesk.com>",
       "To": "aditya.rao@solvexindustries.com",
+      "Cc": "N/A",
+      "Bcc": "N/A",
       "Reply-To": "recovery-team@mail-secure-verify.net",
-      "Subject": "URGENT: Your Mailbox Storage is FULL \u2013 Verify Now to Avoid Suspension",
-      "Date": "Sun, 05 Jul 2026 11:47:00 -0000",
+      "Return-Path": "N/A",
+      "Subject": "URGENT: Your Mailbox Storage is FULL - Verify Now to Avoid Suspension",
+      "Date": "Sun, 05 Jul 2026 23:47:00 +0530",
       "Message-ID": "N/A",
-      "Authentication-Results": "spf=fail; dkim=fail; dmarc=fail (Reject policy overridden)",
-      "Return-Path": "bounce@mail-secure-verify.net"
+      "Authentication-Results": "spf=fail; dkim=fail; dmarc=fail (Reject policy overridden)"
     },
+    "received_hops": [
+      "from unknown-host-193.41.77.108.static-cloud.ru (193.41.77.108)"
+    ],
     "attachments": [],
     "extracted_links": [
       "http://solvex-industries-helpdesk.verify-account-secure.com/mailbox/confirm?user=aditya.rao"
     ],
     "iocs": {
-      "ips": [],
+      "ips": [
+        "193.41.77.108"
+      ],
       "domains": [
+        "solvex-industries-helpdesk.verify-account-secure.com"
+      ],
+      "external_unverified_domains": [
         "solvex-industries-helpdesk.verify-account-secure.com"
       ],
       "urls": [
         "http://solvex-industries-helpdesk.verify-account-secure.com/mailbox/confirm?user=aditya.rao"
       ],
-      "hashes": []
+      "hashes": [],
+      "suspicious_filenames": []
     }
   },
   {
     "file": "Email_03.eml",
     "headers": {
-      "From": "\"Ramesh Kulkarni \u2013 Accounts\", Apex Steel Traders <ramesh.kulkarni@apex-steeltraders.co>",
+      "From": "Ramesh Kulkarni - Accounts <ramesh.kulkarni@apex-steeltraders.co>",
       "To": "aditya.rao@solvexindustries.com",
+      "Cc": "priya.menon@solvexindustries.com",
+      "Bcc": "N/A",
       "Reply-To": "accounts.payments@apexsteel-billing.com",
+      "Return-Path": "N/A",
       "Subject": "Invoice SI-4471 & Updated Bank Details for Future Payments",
-      "Date": "Tue, 07 Jul 2026 03:28:00 -0000",
+      "Date": "Tue, 07 Jul 2026 15:28:00 +0530",
       "Message-ID": "N/A",
-      "Authentication-Results": "spf=pass (for apex-steeltraders.co); dkim=pass; dmarc=pass (TLS 1.2)",
-      "Return-Path": "ramesh.kulkarni@apex-steeltraders.co"
+      "Authentication-Results": "spf=pass (for apex-steeltraders.co); dkim=pass; dmarc=pass (TLS 1.2)"
     },
+    "received_hops": [
+      "from mail.apex-steeltraders.co (103.22.8.190)"
+    ],
     "attachments": [
       {
         "filename": "Invoice_SI-4471_Apex_Steel.pdf",
         "size_bytes": 36,
         "content_type": "application/octet-stream",
         "sha256": "ab9bf8fa8091c08569b0a1f9d6ae9995a19a2379435682c8e92f3a5f64ec2775",
+        "extension": ".pdf",
+        "double_extension": false,
+        "rtlo_detected": false,
         "suspicious": false
       }
     ],
     "extracted_links": [],
     "iocs": {
-      "ips": [],
+      "ips": [
+        "103.22.8.190"
+      ],
       "domains": [],
+      "external_unverified_domains": [],
       "urls": [],
       "hashes": [
         "ab9bf8fa8091c08569b0a1f9d6ae9995a19a2379435682c8e92f3a5f64ec2775"
-      ]
+      ],
+      "suspicious_filenames": []
     }
   },
   {
     "file": "Email_04.eml",
     "headers": {
-      "From": "Human Resources \u2013 Solvex Industries <hr@solvexindustries.com>",
+      "From": "Human Resources - Solvex Industries <hr@solvexindustries.com>",
       "To": "all-employees@solvexindustries.com",
+      "Cc": "N/A",
+      "Bcc": "N/A",
       "Reply-To": "hr@solvexindustries.com",
-      "Subject": "Revised Leave & Work-From-Home Policy \u2013 Effective 15 July 2026",
-      "Date": "Wed, 08 Jul 2026 09:05:00 -0000",
+      "Return-Path": "N/A",
+      "Subject": "Revised Leave & Work-From-Home Policy - Effective 15 July 2026",
+      "Date": "Wed, 08 Jul 2026 09:05:00 +0530",
       "Message-ID": "N/A",
-      "Authentication-Results": "spf=pass; dkim=pass; dmarc=pass (TLS 1.3)",
-      "Return-Path": "hr@solvexindustries.com"
+      "Authentication-Results": "spf=pass; dkim=pass; dmarc=pass (TLS 1.3)"
     },
+    "received_hops": [
+      "from mail.solvexindustries.com (192.168.14.19)"
+    ],
     "attachments": [],
     "extracted_links": [],
     "iocs": {
       "ips": [],
       "domains": [],
+      "external_unverified_domains": [],
       "urls": [],
-      "hashes": []
+      "hashes": [],
+      "suspicious_filenames": []
     }
   },
   {
@@ -104,20 +141,29 @@
     "headers": {
       "From": "Rajeev Malhotra <rajeev.malhotra.md@gmail-corpmail.com>",
       "To": "aditya.rao@solvexindustries.com",
+      "Cc": "N/A",
+      "Bcc": "N/A",
       "Reply-To": "rajeev.malhotra.md@gmail-corpmail.com",
-      "Subject": "Confidential \u2013 Immediate Wire Transfer Required (Time Sensitive)",
-      "Date": "Thu, 09 Jul 2026 01:14:00 -0000",
+      "Return-Path": "N/A",
+      "Subject": "Confidential - Immediate Wire Transfer Required (Time Sensitive)",
+      "Date": "Thu, 09 Jul 2026 13:14:00 +0530",
       "Message-ID": "N/A",
-      "Authentication-Results": "spf=none; dkim=none; dmarc=none",
-      "Return-Path": "rajeev.malhotra.md@gmail-corpmail.com"
+      "Authentication-Results": "spf=none; dkim=none; dmarc=none"
     },
+    "received_hops": [
+      "from smtp-relay-88.freemailhost.io (45.137.22.9)"
+    ],
     "attachments": [],
     "extracted_links": [],
     "iocs": {
-      "ips": [],
+      "ips": [
+        "45.137.22.9"
+      ],
       "domains": [],
+      "external_unverified_domains": [],
       "urls": [],
-      "hashes": []
+      "hashes": [],
+      "suspicious_filenames": []
     }
   },
   {
@@ -125,26 +171,35 @@
     "headers": {
       "From": "Google Drive <drive-shares-noreply@google.com>",
       "To": "aditya.rao@solvexindustries.com",
+      "Cc": "N/A",
+      "Bcc": "N/A",
       "Reply-To": "drive-shares-noreply@google.com",
+      "Return-Path": "N/A",
       "Subject": "'Q1_Vendor_Compliance_Report.xlsx' has been shared with you",
-      "Date": "Thu, 09 Jul 2026 06:40:00 -0000",
+      "Date": "Thu, 09 Jul 2026 18:40:00 +0530",
       "Message-ID": "N/A",
-      "Authentication-Results": "spf=pass; dkim=pass; dmarc=pass (TLS 1.3)",
-      "Return-Path": "drive-shares-noreply@google.com"
+      "Authentication-Results": "spf=pass; dkim=pass; dmarc=pass (TLS 1.3)"
     },
+    "received_hops": [
+      "from mail-sor-f89.google.com (209.85.220.89)"
+    ],
     "attachments": [],
     "extracted_links": [
       "https://docs.google.com/spreadsheets/d/1kQ3z-example-fileid-9f2/edit?usp=sharing"
     ],
     "iocs": {
-      "ips": [],
+      "ips": [
+        "209.85.220.89"
+      ],
       "domains": [
         "docs.google.com"
       ],
+      "external_unverified_domains": [],
       "urls": [
         "https://docs.google.com/spreadsheets/d/1kQ3z-example-fileid-9f2/edit?usp=sharing"
       ],
-      "hashes": []
+      "hashes": [],
+      "suspicious_filenames": []
     }
   },
   {
@@ -152,26 +207,37 @@
     "headers": {
       "From": "Microsoft account team <security-noreply@micros0ft-online.com>",
       "To": "aditya.rao@solvexindustries.com",
+      "Cc": "N/A",
+      "Bcc": "N/A",
       "Reply-To": "no-reply@micros0ft-online.com",
+      "Return-Path": "N/A",
       "Subject": "Unusual sign-in activity detected on your Microsoft account",
-      "Date": "Fri, 10 Jul 2026 02:03:00 -0000",
+      "Date": "Fri, 10 Jul 2026 02:03:00 +0530",
       "Message-ID": "N/A",
-      "Authentication-Results": "spf=fail; dkim=fail; dmarc=fail",
-      "Return-Path": "bounce@micros0ft-online.com"
+      "Authentication-Results": "spf=fail; dkim=fail; dmarc=fail"
     },
+    "received_hops": [
+      "from host-77-91-134-6.vpn-exit.net (77.91.134.6)"
+    ],
     "attachments": [],
     "extracted_links": [
       "http://login.micros0ft-online.com/secure/verify-identity?ref=aditya.rao"
     ],
     "iocs": {
-      "ips": [],
+      "ips": [
+        "77.91.134.6"
+      ],
       "domains": [
+        "login.micros0ft-online.com"
+      ],
+      "external_unverified_domains": [
         "login.micros0ft-online.com"
       ],
       "urls": [
         "http://login.micros0ft-online.com/secure/verify-identity?ref=aditya.rao"
       ],
-      "hashes": []
+      "hashes": [],
+      "suspicious_filenames": []
     }
   },
   {
@@ -179,29 +245,43 @@
     "headers": {
       "From": "\"Neha Kapoor\", HR Consultant <neha.kapoor.hr@talentbridge-recruiters.net>",
       "To": "aditya.rao@solvexindustries.com",
+      "Cc": "N/A",
+      "Bcc": "N/A",
       "Reply-To": "neha.kapoor.hr@talentbridge-recruiters.net",
-      "Subject": "Exciting Career Opportunity \u2013 Senior Finance Role (Immediate Response Needed)",
-      "Date": "Fri, 10 Jul 2026 11:20:00 -0000",
+      "Return-Path": "N/A",
+      "Subject": "Exciting Career Opportunity - Senior Finance Role (Immediate Response Needed)",
+      "Date": "Fri, 10 Jul 2026 11:20:00 +0530",
       "Message-ID": "N/A",
-      "Authentication-Results": "spf=pass (for talentbridge-recruiters.net); dkim=pass; dmarc=none",
-      "Return-Path": "neha.kapoor.hr@talentbridge-recruiters.net"
+      "Authentication-Results": "spf=pass (for talentbridge-recruiters.net); dkim=pass; dmarc=none"
     },
+    "received_hops": [
+      "from mail.talentbridge-recruiters.net (156.213.44.71)"
+    ],
     "attachments": [
       {
         "filename": "JD_SeniorFinanceManager_Client.zip",
         "size_bytes": 35,
         "content_type": "application/octet-stream",
         "sha256": "720bb323679ae825794a5f2e13b6f3286c8adf40ee76a6936a93553447c877b9",
+        "extension": ".zip",
+        "double_extension": false,
+        "rtlo_detected": false,
         "suspicious": true
       }
     ],
     "extracted_links": [],
     "iocs": {
-      "ips": [],
+      "ips": [
+        "156.213.44.71"
+      ],
       "domains": [],
+      "external_unverified_domains": [],
       "urls": [],
       "hashes": [
         "720bb323679ae825794a5f2e13b6f3286c8adf40ee76a6936a93553447c877b9"
+      ],
+      "suspicious_filenames": [
+        "JD_SeniorFinanceManager_Client.zip"
       ]
     }
   },
@@ -210,19 +290,27 @@
     "headers": {
       "From": "Tally Solutions Billing <billing@tallysolutions.com>",
       "To": "aditya.rao@solvexindustries.com",
+      "Cc": "accounts@solvexindustries.com",
+      "Bcc": "N/A",
       "Reply-To": "billing@tallysolutions.com",
-      "Subject": "Your TallyPrime Cloud Subscription Renewal Invoice \u2013 INV-88213",
-      "Date": "Sat, 11 Jul 2026 10:00:00 -0000",
+      "Return-Path": "N/A",
+      "Subject": "Your TallyPrime Cloud Subscription Renewal Invoice - INV-88213",
+      "Date": "Sat, 11 Jul 2026 10:00:00 +0530",
       "Message-ID": "N/A",
-      "Authentication-Results": "spf=pass; dkim=pass; dmarc=pass (TLS 1.3)",
-      "Return-Path": "billing@tallysolutions.com"
+      "Authentication-Results": "spf=pass; dkim=pass; dmarc=pass (TLS 1.3)"
     },
+    "received_hops": [
+      "from mta-out.tallysolutions.com (203.0.113.44)"
+    ],
     "attachments": [
       {
         "filename": "INV-88213_TallyPrime_Renewal.pdf",
         "size_bytes": 35,
         "content_type": "application/octet-stream",
         "sha256": "9e8c854e3774b755b35fd0aa2564a71464ed46eb6c1c9a6d13daecd7c6a59910",
+        "extension": ".pdf",
+        "double_extension": false,
+        "rtlo_detected": false,
         "suspicious": false
       }
     ],
@@ -230,37 +318,50 @@
     "iocs": {
       "ips": [],
       "domains": [],
+      "external_unverified_domains": [],
       "urls": [],
       "hashes": [
         "9e8c854e3774b755b35fd0aa2564a71464ed46eb6c1c9a6d13daecd7c6a59910"
-      ]
+      ],
+      "suspicious_filenames": []
     }
   },
   {
     "file": "Email_10.eml",
     "headers": {
       "From": "INTERNATIONAL LOTTERY BOARD <claims.department009@yandex-mailer.com>",
-      "To": "undisclosed-recipients",
+      "To": "undisclosed-recipients@solvexindustries.com",
+      "Cc": "N/A",
+      "Bcc": "N/A",
       "Reply-To": "agent.williams.claims@outlook-verify.info",
+      "Return-Path": "N/A",
       "Subject": "CONGRATULATIONS!!! YOU HAVE WON USD 1,000,000 IN THE INTERNATIONAL EMAIL LOTTERY",
-      "Date": "Sat, 11 Jul 2026 04:52:00 -0000",
+      "Date": "Sat, 11 Jul 2026 16:52:00 +0530",
       "Message-ID": "N/A",
-      "Authentication-Results": "spf=fail; dkim=fail; dmarc=fail",
-      "Return-Path": "claims.department009@yandex-mailer.com"
+      "Authentication-Results": "spf=fail; dkim=fail; dmarc=fail"
     },
+    "received_hops": [
+      "from unknown-relay-node4.freehosting-mail.com (185.220.101.44)"
+    ],
     "attachments": [],
     "extracted_links": [
       "http://claim-your-prize-now.lottery-verify.info/claim?ref=44921"
     ],
     "iocs": {
-      "ips": [],
+      "ips": [
+        "185.220.101.44"
+      ],
       "domains": [
+        "claim-your-prize-now.lottery-verify.info"
+      ],
+      "external_unverified_domains": [
         "claim-your-prize-now.lottery-verify.info"
       ],
       "urls": [
         "http://claim-your-prize-now.lottery-verify.info/claim?ref=44921"
       ],
-      "hashes": []
+      "hashes": [],
+      "suspicious_filenames": []
     }
   },
   {
@@ -268,41 +369,55 @@
     "headers": {
       "From": "Suresh Iyer <suresh.iyer@solvexindustries.com>",
       "To": "aditya.rao@solvexindustries.com",
+      "Cc": "N/A",
+      "Bcc": "N/A",
       "Reply-To": "s.iyer.cfo.travel@outlook.com",
+      "Return-Path": "N/A",
       "Subject": "Quick request before my flight",
-      "Date": "Sun, 12 Jul 2026 08:31:00 -0000",
+      "Date": "Sun, 12 Jul 2026 08:31:00 +0530",
       "Message-ID": "N/A",
-      "Authentication-Results": "spf=pass (envelope sender matches solvexindustries.com); dkim=pass; dmarc=pass (TLS 1.3)",
-      "Return-Path": "suresh.iyer@solvexindustries.com"
+      "Authentication-Results": "spf=pass (envelope sender matches solvexindustries.com); dkim=pass; dmarc=pass (TLS 1.3)"
     },
+    "received_hops": [
+      "from mail.solvexindustries.com (192.168.14.19)"
+    ],
     "attachments": [],
     "extracted_links": [],
     "iocs": {
       "ips": [],
       "domains": [],
+      "external_unverified_domains": [],
       "urls": [],
-      "hashes": []
+      "hashes": [],
+      "suspicious_filenames": []
     }
   },
   {
     "file": "Email_12.eml",
     "headers": {
-      "From": "Information Security Team \u2013 Solvex Industries <infosec@solvexindustries.com>",
+      "From": "Information Security Team - Solvex Industries <infosec@solvexindustries.com>",
       "To": "all-employees@solvexindustries.com",
+      "Cc": "N/A",
+      "Bcc": "N/A",
       "Reply-To": "infosec@solvexindustries.com",
-      "Subject": "Reminder: Mandatory Security Awareness Training \u2013 Due This Friday",
-      "Date": "Sun, 12 Jul 2026 09:15:00 -0000",
+      "Return-Path": "N/A",
+      "Subject": "Reminder: Mandatory Security Awareness Training - Due This Friday",
+      "Date": "Sun, 12 Jul 2026 09:15:00 +0530",
       "Message-ID": "N/A",
-      "Authentication-Results": "spf=pass; dkim=pass; dmarc=pass (TLS 1.3)",
-      "Return-Path": "infosec@solvexindustries.com"
+      "Authentication-Results": "spf=pass; dkim=pass; dmarc=pass (TLS 1.3)"
     },
+    "received_hops": [
+      "from mail.solvexindustries.com (192.168.14.19)"
+    ],
     "attachments": [],
     "extracted_links": [],
     "iocs": {
       "ips": [],
       "domains": [],
+      "external_unverified_domains": [],
       "urls": [],
-      "hashes": []
+      "hashes": [],
+      "suspicious_filenames": []
     }
   },
   {
@@ -310,19 +425,27 @@
     "headers": {
       "From": "Accounts Receivable <accounts.receivable@shreeganesh-logistics.in>",
       "To": "aditya.rao@solvexindustries.com",
+      "Cc": "N/A",
+      "Bcc": "N/A",
       "Reply-To": "accounts.receivable@shreeganesh-logistics.in",
-      "Subject": "Pending Invoice \u2013 Please Review & Process on Priority",
-      "Date": "Mon, 13 Jul 2026 05:58:00 -0000",
+      "Return-Path": "N/A",
+      "Subject": "Pending Invoice - Please Review & Process on Priority",
+      "Date": "Mon, 13 Jul 2026 17:58:00 +0530",
       "Message-ID": "N/A",
-      "Authentication-Results": "spf=fail (domain not authorised to send); dkim=none; dmarc=fail",
-      "Return-Path": "mailer@shreeganesh-logistics.in"
+      "Authentication-Results": "spf=fail (domain not authorised to send); dkim=none; dmarc=fail"
     },
+    "received_hops": [
+      "from webmail-host-4.sharedhosting-cluster.com (41.203.88.17)"
+    ],
     "attachments": [
       {
         "filename": "Pending_Invoice_Challan_Details.docm",
         "size_bytes": 27,
         "content_type": "application/octet-stream",
         "sha256": "1659174a0b84c31ff2fc7b50fc07c0973964d33a3897ba38c07bece46805c17d",
+        "extension": ".docm",
+        "double_extension": false,
+        "rtlo_detected": false,
         "suspicious": true
       }
     ],
@@ -330,8 +453,13 @@
       "http://shreeganesh-logistics.in.invoice-view-secure.com/download?file=inv2207"
     ],
     "iocs": {
-      "ips": [],
+      "ips": [
+        "41.203.88.17"
+      ],
       "domains": [
+        "shreeganesh-logistics.in.invoice-view-secure.com"
+      ],
+      "external_unverified_domains": [
         "shreeganesh-logistics.in.invoice-view-secure.com"
       ],
       "urls": [
@@ -339,6 +467,9 @@
       ],
       "hashes": [
         "1659174a0b84c31ff2fc7b50fc07c0973964d33a3897ba38c07bece46805c17d"
+      ],
+      "suspicious_filenames": [
+        "Pending_Invoice_Challan_Details.docm"
       ]
     }
   }
