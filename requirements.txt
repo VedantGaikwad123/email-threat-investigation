@@ -1,0 +1,12 @@
+# requirements.txt
+# Standard library only — no third-party packages required.
+# Compatible with Python 3.8+
+#
+# Modules used internally:
+#   email       - EML file parsing (headers, MIME parts, attachments)
+#   os          - File system operations
+#   re          - Regular expressions for IOC extraction (IPs, URLs, domains)
+#   json        - Structured JSON output for parsed IOC data
+#   hashlib     - SHA-256 hash computation for attachment payloads
+#   argparse    - Command-line interface argument parsing
+#   urllib.parse - URL parsing and domain extraction
