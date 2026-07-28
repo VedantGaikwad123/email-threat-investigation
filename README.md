@@ -8,13 +8,12 @@ A complete, end-to-end **Security Operations Center (SOC) email threat investiga
 
 ```
 email-threat-investigation/
-├── emails.pdf                             # Original case briefing document (Cryptonic Area)
 ├── email_threat_investigation_plan.md     # Operational methodology & phase-by-phase blueprint
 ├── email_threat_investigation_report.md   # Full forensic investigation report (13 email cases)
-├── PROJECT_REPORT.md                      # Executive project completion report
+├── dashboard.html                         # 🖥️  Interactive SOC HTML dashboard (open in browser)
 ├── soc_email_parser.py                    # 🐍 Automated EML header & IOC extractor tool
 ├── generate_sample_emails.py              # 🐍 Synthetic .eml test file generator
-├── parsed_iocs.json                       # Automated JSON output from parser
+├── requirements.txt                       # Dependency manifest (stdlib only)
 └── sample_emails/                         # 13 synthetic .eml evidence artifacts
     ├── Email_01.eml                       # IT Helpdesk — Password Expiry Reminder (SAFE)
     ├── Email_02.eml                       # Mailbox Full Suspension Lure (SUSPICIOUS)
@@ -95,11 +94,14 @@ The core SOC automation tool. Parses raw `.eml` files and extracts threat intell
 
 ```
 usage: soc_email_parser.py [-h] [--eml EML] [--dir DIR] [--output OUTPUT]
+                           [--export-csv CSV_FILE] [-v]
 
 options:
-  --eml    PATH    Path to a single .eml file to analyze
-  --dir    PATH    Path to a directory containing multiple .eml files
-  --output FILE    Output JSON file path (default: analysis_output.json)
+  --eml        PATH    Path to a single .eml file to analyze
+  --dir        PATH    Path to a directory containing multiple .eml files
+  --output     FILE    Output JSON file path (default: analysis_output.json)
+  --export-csv FILE    Export deduplicated IOC list as CSV
+  -v, --verbose        Enable verbose debug logging
 ```
 
 ### Sample JSON Output (truncated)
@@ -202,9 +204,10 @@ Modules used internally: `email`, `os`, `re`, `json`, `hashlib`, `argparse`, `ur
 
 | File | Description |
 | :--- | :--- |
-| `parsed_iocs.json` | Consolidated JSON output of all extracted IOCs from 13 emails |
+| `dashboard.html` | 🖥️ Interactive SOC dashboard — open in any browser, no server needed |
 | `email_threat_investigation_report.md` | Full SOC forensic report (headers, evidence, OSINT, remediation) |
-| `PROJECT_REPORT.md` | Executive summary & internship submission document |
+| `parsed_iocs.json` | Consolidated JSON output of all extracted IOCs from 13 emails |
+| `iocs_export.csv` | Flat IOC list (use `--export-csv`) ready for SIEM/firewall import |
 
 ---
 

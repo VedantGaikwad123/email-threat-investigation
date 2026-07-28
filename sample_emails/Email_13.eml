@@ -7,9 +7,9 @@ Authentication-Results:
 Received: from webmail-host-4.sharedhosting-cluster.com (41.203.88.17)
 Reply-To: accounts.receivable@shreeganesh-logistics.in
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="===============3213657102361692833=="
+Content-Type: multipart/mixed; boundary="===============3794645962247300611=="
 
---===============3213657102361692833==
+--===============3794645962247300611==
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -28,7 +28,7 @@ Thank you,
 Accounts Receivable Team
 Shree Ganesh Logistics
 
---===============3213657102361692833==
+--===============3794645962247300611==
 Content-Type: application/octet-stream
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
@@ -37,4 +37,4 @@ MIME-Version: 1.0
 
 TU9DS19ET0NNX1ZCQV9NQUNST19QQVlMT0FE
 
---===============3213657102361692833==--
+--===============3794645962247300611==--

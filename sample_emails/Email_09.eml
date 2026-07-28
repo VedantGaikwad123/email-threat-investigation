@@ -7,9 +7,9 @@ Received: from mta-out.tallysolutions.com (203.0.113.44)
 Reply-To: billing@tallysolutions.com
 Cc: accounts@solvexindustries.com
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="===============2959767237440612161=="
+Content-Type: multipart/mixed; boundary="===============8002559057191342983=="
 
---===============2959767237440612161==
+--===============8002559057191342983==
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -26,7 +26,7 @@ Thank you for being a valued customer.
 
 Tally Solutions Pvt. Ltd.
 
---===============2959767237440612161==
+--===============8002559057191342983==
 Content-Type: application/octet-stream
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="INV-88213_TallyPrime_Renewal.pdf"
@@ -34,4 +34,4 @@ MIME-Version: 1.0
 
 TU9DS19QREZfVEFMTFlfU1VCU0NSSVBUSU9OX0lOVk9JQ0U=
 
---===============2959767237440612161==--
+--===============8002559057191342983==--

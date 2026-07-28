@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SOC Dashboard — Case File CA-ETI-01 | Solvex Industries Email Threat Investigation</title>
+  <meta name="description" content="Security Operations Center forensic dashboard for Case File CA-ETI-01. 13-email threat investigation covering phishing, BEC, macro droppers, and advance-fee fraud targeting Solvex Industries Pvt. Ltd." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg-base:#0b0d14; --bg-card:rgba(255,255,255,0.04); --bg-hover:rgba(255,255,255,0.07);
+      --border:rgba(255,255,255,0.08); --border-glow:rgba(99,102,241,0.35);
+      --safe:#10b981; --safe-bg:rgba(16,185,129,0.12);
+      --medium:#f59e0b; --medium-bg:rgba(245,158,11,0.12);
+      --critical:#ef4444; --critical-bg:rgba(239,68,68,0.12);
+      --accent:#6366f1; --accent-2:#8b5cf6;
+      --text-hi:#f1f5f9; --text-mid:#94a3b8; --text-lo:#475569;
+      --radius-sm:8px; --radius-md:14px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:var(--bg-base);color:var(--text-hi);min-height:100vh;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;z-index:-1;
+      background:radial-gradient(ellipse 80% 50% at 20% -20%,rgba(99,102,241,0.15) 0%,transparent 60%),
+                 radial-gradient(ellipse 60% 40% at 80% 110%,rgba(139,92,246,0.12) 0%,transparent 55%);
+      pointer-events:none}
+    .container{max-width:1300px;margin:0 auto;padding:0 24px}
+    header{padding:36px 0 24px;border-bottom:1px solid var(--border);margin-bottom:40px}
+    .header-inner{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px}
+    .header-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#fca5a5;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:999px;margin-bottom:10px}
+    .header-badge::before{content:'●';color:#ef4444;font-size:8px;animation:blink 1.4s ease-in-out infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+    h1{font-size:clamp(22px,3.5vw,32px);font-weight:800;letter-spacing:-.5px;line-height:1.15}
+    h1 span{background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .header-meta{font-size:13px;color:var(--text-mid);margin-top:8px;line-height:1.7}
+    .header-meta strong{color:var(--text-hi)}
+    .tlp-badge{background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.35);color:#fcd34d;font-size:11px;font-weight:700;padding:6px 16px;border-radius:var(--radius-sm);letter-spacing:.05em;white-space:nowrap;align-self:flex-start}
+    .section{margin-bottom:56px}
+    .section-title{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-mid);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+    .section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+    .cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:16px}
+    .card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:22px 24px;position:relative;overflow:hidden;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+    .card:hover{transform:translateY(-3px);border-color:var(--border-glow);box-shadow:0 8px 32px rgba(99,102,241,.12)}
+    .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent-2));opacity:0;transition:opacity .2s}
+    .card:hover::before{opacity:1}
+    .card-icon{font-size:22px;margin-bottom:10px}
+    .card-value{font-size:36px;font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:4px}
+    .card-value.danger{color:var(--critical)}.card-value.warning{color:var(--medium)}.card-value.safe-c{color:var(--safe)}
+    .card-value.accent{background:linear-gradient(135deg,var(--accent),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .card-label{font-size:12px;color:var(--text-mid);font-weight:500}.card-sub{font-size:11px;color:var(--text-lo);margin-top:6px}
+    .chart-row{display:grid;grid-template-columns:280px 1fr;gap:20px;align-items:start}
+    @media(max-width:800px){.chart-row{grid-template-columns:1fr}}
+    .chart-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;display:flex;flex-direction:column;align-items:center;gap:16px}
+    .chart-box h3{font-size:13px;font-weight:600;color:var(--text-mid)}
+    .chart-legend{width:100%}.legend-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-mid);margin-bottom:6px}
+    .legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+    .timeline-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;overflow-x:auto}
+    .timeline-box h3{font-size:13px;font-weight:600;color:var(--text-mid);margin-bottom:20px}
+    .timeline-track{min-width:600px}
+    .timeline-axis{display:flex;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:8px}
+    .timeline-axis span{font-size:10px;color:var(--text-lo);font-family:'JetBrains Mono',monospace}
+    .timeline-items{display:flex;flex-direction:column;gap:6px}
+    .tl-item{display:flex;align-items:center;gap:10px;animation:fadeSlide .4s ease both}
+    @keyframes fadeSlide{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+    .tl-label{font-size:10px;color:var(--text-mid);font-family:'JetBrains Mono',monospace;width:62px;flex-shrink:0}
+    .tl-bar-wrap{flex:1;position:relative;height:20px;display:flex;align-items:center}
+    .tl-spacer{display:inline-block;height:1px}
+    .tl-bar{display:inline-flex;align-items:center;padding:0 10px;border-radius:4px;font-size:9.5px;font-weight:600;height:20px;white-space:nowrap;cursor:default;transition:filter .2s}
+    .tl-bar:hover{filter:brightness(1.3)}
+    .tl-bar.safe{background:var(--safe-bg);color:var(--safe);border:1px solid rgba(16,185,129,.3)}
+    .tl-bar.medium{background:var(--medium-bg);color:var(--medium);border:1px solid rgba(245,158,11,.3)}
+    .tl-bar.critical{background:var(--critical-bg);color:var(--critical);border:1px solid rgba(239,68,68,.3)}
+    .badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:10.5px;font-weight:700;letter-spacing:.04em;white-space:nowrap}
+    .badge.safe{background:var(--safe-bg);color:var(--safe);border:1px solid rgba(16,185,129,.25)}
+    .badge.medium{background:var(--medium-bg);color:var(--medium);border:1px solid rgba(245,158,11,.25)}
+    .badge.critical{background:var(--critical-bg);color:var(--critical);border:1px solid rgba(239,68,68,.25)}
+    .email-list{display:flex;flex-direction:column;gap:10px}
+    .email-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;transition:border-color .2s}
+    .email-card.safe-card:hover{border-color:rgba(16,185,129,.3)}.email-card.medium-card:hover{border-color:rgba(245,158,11,.3)}.email-card.critical-card:hover{border-color:rgba(239,68,68,.3)}
+    .email-header{display:flex;align-items:center;gap:14px;padding:14px 18px;cursor:pointer;user-select:none;transition:background .15s}
+    .email-header:hover{background:var(--bg-hover)}
+    .email-num{font-size:11px;font-weight:700;color:var(--text-lo);font-family:'JetBrains Mono',monospace;min-width:32px}
+    .email-subject{flex:1;font-size:13px;font-weight:500;color:var(--text-hi)}
+    .email-date{font-size:11px;color:var(--text-lo);font-family:'JetBrains Mono',monospace;white-space:nowrap}
+    .chevron{font-size:12px;color:var(--text-lo);transition:transform .25s}
+    .email-card.open .chevron{transform:rotate(180deg)}
+    .email-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1);border-top:1px solid transparent}
+    .email-card.open .email-body{max-height:800px;border-top-color:var(--border)}
+    .email-body-inner{padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:700px){.email-body-inner{grid-template-columns:1fr}}
+    .field-group{display:flex;flex-direction:column;gap:6px}
+    .field-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-lo)}
+    .field-value{font-size:12px;color:var(--text-mid);font-family:'JetBrains Mono',monospace;word-break:break-all}
+    .field-value.hi{color:var(--text-hi);font-family:'Inter',sans-serif;font-size:13px}
+    .auth-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:2px}
+    .auth-pill{font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;font-family:'JetBrains Mono',monospace}
+    .auth-pill.pass{background:rgba(16,185,129,.15);color:#6ee7b7;border:1px solid rgba(16,185,129,.25)}
+    .auth-pill.fail{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.25)}
+    .auth-pill.none{background:rgba(148,163,184,.1);color:#94a3b8;border:1px solid rgba(148,163,184,.2)}
+    .ioc-tag{display:inline-block;font-size:10.5px;font-family:'JetBrains Mono',monospace;background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.2);color:#a5b4fc;padding:2px 8px;border-radius:4px;margin:2px 2px 2px 0;word-break:break-all}
+    .detail-wide{grid-column:1/-1}
+    .reasoning-box{background:rgba(0,0,0,.2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;font-size:12px;color:var(--text-mid);line-height:1.6}
+    .ioc-controls{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
+    #ioc-search{flex:1;min-width:220px;padding:9px 14px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-hi);font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s}
+    #ioc-search:focus{border-color:var(--accent)}
+    #ioc-search::placeholder{color:var(--text-lo)}
+    .filter-btn{padding:8px 14px;border-radius:var(--radius-sm);font-size:12px;font-weight:600;border:1px solid var(--border);background:var(--bg-card);color:var(--text-mid);cursor:pointer;transition:all .15s;white-space:nowrap}
+    .filter-btn:hover,.filter-btn.active{border-color:var(--accent);color:#a5b4fc;background:rgba(99,102,241,.1)}
+    .ioc-table-wrap{overflow-x:auto;border-radius:var(--radius-md);border:1px solid var(--border)}
+    table{width:100%;border-collapse:collapse;font-size:12px}
+    th{background:rgba(255,255,255,.03);text-align:left;padding:12px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-lo);border-bottom:1px solid var(--border);white-space:nowrap}
+    td{padding:11px 16px;border-bottom:1px solid var(--border);color:var(--text-mid);vertical-align:top}
+    tr:last-child td{border-bottom:none}
+    tbody tr{transition:background .15s}
+    tbody tr:hover{background:var(--bg-hover)}
+    .ioc-type-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;font-family:'JetBrains Mono',monospace;white-space:nowrap}
+    .ioc-type-badge.domain{background:rgba(99,102,241,.15);color:#a5b4fc;border:1px solid rgba(99,102,241,.3)}
+    .ioc-type-badge.ipv4{background:rgba(239,68,68,.12);color:#fca5a5;border:1px solid rgba(239,68,68,.3)}
+    .ioc-type-badge.filename{background:rgba(245,158,11,.12);color:#fcd34d;border:1px solid rgba(245,158,11,.3)}
+    .ioc-type-badge.sha256{background:rgba(16,185,129,.12);color:#6ee7b7;border:1px solid rgba(16,185,129,.3)}
+    .ioc-type-badge.emailaddr{background:rgba(139,92,246,.12);color:#c4b5fd;border:1px solid rgba(139,92,246,.3)}
+    .ioc-indicator{font-family:'JetBrains Mono',monospace;color:var(--text-hi);font-size:11.5px;word-break:break-all}
+    #ioc-count{font-size:12px;color:var(--text-lo)}
+    .kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    @media(max-width:900px){.kanban{grid-template-columns:1fr}}
+    .kanban-col{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden}
+    .kanban-header{padding:12px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)}
+    .kanban-header .dot{width:10px;height:10px;border-radius:50%}
+    .kanban-header .col-title{font-size:12px;font-weight:700}
+    .kanban-header .col-count{margin-left:auto;font-size:11px;font-weight:700;background:rgba(255,255,255,.06);border-radius:999px;padding:2px 8px}
+    .kanban-items{padding:12px;display:flex;flex-direction:column;gap:8px}
+    .kanban-card{background:rgba(0,0,0,.2);border-radius:var(--radius-sm);padding:10px 12px;border:1px solid var(--border);transition:transform .15s,border-color .15s}
+    .kanban-card:hover{transform:translateY(-2px)}
+    .kanban-card.safe-card:hover{border-color:rgba(16,185,129,.35)}.kanban-card.medium-card:hover{border-color:rgba(245,158,11,.35)}.kanban-card.crit-card:hover{border-color:rgba(239,68,68,.35)}
+    .kc-num{font-size:10px;font-weight:700;color:var(--text-lo);font-family:'JetBrains Mono',monospace;margin-bottom:4px}
+    .kc-subject{font-size:11.5px;font-weight:600;color:var(--text-hi);margin-bottom:4px;line-height:1.3}
+    .kc-tech{font-size:10px;color:var(--text-mid)}
+    footer{border-top:1px solid var(--border);margin-top:60px;padding:24px 0 32px;text-align:center;font-size:12px;color:var(--text-lo)}
+    footer a{color:var(--text-mid);text-decoration:none}
+    footer a:hover{color:var(--accent)}
+    .hidden{display:none!important}
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="header-inner">
+      <div>
+        <div class="header-badge">SOC Active Dashboard</div>
+        <h1>Email Threat Investigation<br><span>Case File CA-ETI-01</span></h1>
+        <p class="header-meta">
+          <strong>Organization:</strong> Solvex Industries Pvt. Ltd. &nbsp;|&nbsp;
+          <strong>Target Mailbox:</strong> Aditya Rao (Sr. Finance) &nbsp;|&nbsp;
+          <strong>Period:</strong> Jul 3&#x2013;13, 2026 &nbsp;|&nbsp;
+          <strong>Report Date:</strong> Jul 25, 2026
+        </p>
+      </div>
+      <div class="tlp-badge">TLP:AMBER / CONFIDENTIAL</div>
+    </div>
+  </header>
+
+  <section class="section">
+    <h2 class="section-title">Executive Summary</h2>
+    <div class="cards-grid">
+      <div class="card"><div class="card-icon">&#128231;</div><div class="card-value accent" id="cnt-total">0</div><div class="card-label">Emails Analyzed</div><div class="card-sub">Full mailbox audit</div></div>
+      <div class="card"><div class="card-icon">&#128308;</div><div class="card-value danger" id="cnt-crit">0</div><div class="card-label">Suspicious / Malicious</div><div class="card-sub">46.1% of total</div></div>
+      <div class="card"><div class="card-icon">&#128993;</div><div class="card-value warning" id="cnt-med">0</div><div class="card-label">Medium Risk</div><div class="card-sub">15.4% of total</div></div>
+      <div class="card"><div class="card-icon">&#9989;</div><div class="card-value safe-c" id="cnt-safe">0</div><div class="card-label">Safe / Legitimate</div><div class="card-sub">38.5% of total</div></div>
+      <div class="card"><div class="card-icon">&#127919;</div><div class="card-value accent" id="cnt-ioc">0</div><div class="card-label">Unique IOCs Extracted</div><div class="card-sub">Domains, IPs, Hashes, Files</div></div>
+      <div class="card"><div class="card-icon">&#9889;</div><div class="card-value danger" id="cnt-dmarc">0</div><div class="card-label">DMARC / SPF Failures</div><div class="card-sub">Spoofing indicators</div></div>
+      <div class="card"><div class="card-icon">&#9888;</div><div class="card-value danger" style="font-size:20px;margin-top:4px">BEC</div><div class="card-label">Top Attack Technique</div><div class="card-sub">Business Email Compromise</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Threat Distribution &amp; Campaign Timeline</h2>
+    <div class="chart-row">
+      <div class="chart-box">
+        <h3>Classification Breakdown</h3>
+        <canvas id="pieChart" width="220" height="220"></canvas>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Suspicious / Malicious &#x2014; 6 (46.1%)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Medium Risk &#x2014; 2 (15.4%)</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>Safe / Legitimate &#x2014; 5 (38.5%)</div>
+        </div>
+      </div>
+      <div class="timeline-box">
+        <h3>Attack Campaign Timeline &#x2014; Jul 3&#x2013;13, 2026</h3>
+        <div class="timeline-track">
+          <div class="timeline-axis">
+            <span>Jul 3</span><span>Jul 5</span><span>Jul 7</span><span>Jul 8</span>
+            <span>Jul 9</span><span>Jul 10</span><span>Jul 11</span><span>Jul 12</span><span>Jul 13</span>
+          </div>
+          <div class="timeline-items" id="timeline-items"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Per-Email Forensic Analysis (13 Cases)</h2>
+    <div class="email-list" id="email-list"></div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Master IOC Database</h2>
+    <div class="ioc-controls">
+      <input type="text" id="ioc-search" placeholder="Search indicators, types, threats..." oninput="filterIOC()" />
+      <button class="filter-btn active" id="filter-all" onclick="setFilter('all')">All</button>
+      <button class="filter-btn" id="filter-Domain" onclick="setFilter('Domain')">Domains</button>
+      <button class="filter-btn" id="filter-IPv4" onclick="setFilter('IPv4')">IPs</button>
+      <button class="filter-btn" id="filter-Filename" onclick="setFilter('Filename')">Files</button>
+      <button class="filter-btn" id="filter-SHA256" onclick="setFilter('SHA-256')">Hashes</button>
+      <button class="filter-btn" id="filter-EmailAddr" onclick="setFilter('Email Address')">Emails</button>
+      <span id="ioc-count"></span>
+    </div>
+    <div class="ioc-table-wrap">
+      <table id="ioc-table">
+        <thead><tr><th>Type</th><th>Indicator</th><th>Associated Threat</th><th>Source</th><th>Action</th></tr></thead>
+        <tbody id="ioc-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">SOC Triage Board</h2>
+    <div class="kanban">
+      <div class="kanban-col">
+        <div class="kanban-header"><div class="dot" style="background:var(--safe)"></div><span class="col-title" style="color:var(--safe)">&#9989; Safe / Legitimate</span><span class="col-count">5</span></div>
+        <div class="kanban-items" id="kanban-safe"></div>
+      </div>
+      <div class="kanban-col">
+        <div class="kanban-header"><div class="dot" style="background:var(--medium)"></div><span class="col-title" style="color:var(--medium)">&#128993; Medium Risk</span><span class="col-count">2</span></div>
+        <div class="kanban-items" id="kanban-medium"></div>
+      </div>
+      <div class="kanban-col">
+        <div class="kanban-header"><div class="dot" style="background:var(--critical)"></div><span class="col-title" style="color:var(--critical)">&#128308; Suspicious / Malicious</span><span class="col-count">6</span></div>
+        <div class="kanban-items" id="kanban-critical"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="container">
+    <p>Case File CA-ETI-01 &nbsp;&middot;&nbsp; Solvex Industries Pvt. Ltd. &nbsp;&middot;&nbsp; TLP:AMBER &nbsp;&middot;&nbsp; Cryptonic Area Cybersecurity Internship Program</p>
+    <p style="margin-top:6px">Investigator: <a href="https://github.com/VedantGaikwad123">Vedant Gaikwad</a> &nbsp;&middot;&nbsp; Lead Cyber Security &amp; Threat Intelligence Analyst</p>
+  </div>
+</footer>
+
+<script>
+const EMAILS=[
+{num:"01",risk:"safe",date:"Jul 03",subject:"Password Expiry Reminder - Action Needed Within 5 Days",from:"ithelpdesk@solvexindustries.com",replyTo:"ithelpdesk@solvexindustries.com",received:"mail.solvexindustries.com (192.168.14.22)",auth:{spf:"pass",dkim:"pass",dmarc:"pass",tls:"1.3"},technique:"None — legitimate",reasoning:"Authenticated internal server origin, clean headers, standard IT hygiene. Zero malicious links or attachments.",iocs:[],links:[],attachments:[]},
+{num:"02",risk:"critical",date:"Jul 05",subject:"URGENT: Your Mailbox Storage is FULL - Verify Now to Avoid Suspension",from:"support@solvex-industries-helpdesk.com",replyTo:"recovery-team@mail-secure-verify.net",received:"unknown-host-193.41.77.108.static-cloud.ru (193.41.77.108)",auth:{spf:"fail",dkim:"fail",dmarc:"fail",tls:"None"},technique:"Credential Phishing / Typosquatting",reasoning:"Typosquat domain impersonates internal IT. Reply-To redirects to external phishing host. SPF/DKIM/DMARC all fail. Credential-harvesting URL embeds victim username.",iocs:["193.41.77.108","solvex-industries-helpdesk.verify-account-secure.com"],links:["http://solvex-industries-helpdesk.verify-account-secure.com/mailbox/confirm?user=aditya.rao"],attachments:[]},
+{num:"03",risk:"medium",date:"Jul 07",subject:"Invoice SI-4471 &amp; Updated Bank Details for Future Payments",from:"ramesh.kulkarni@apex-steeltraders.co",replyTo:"accounts.payments@apexsteel-billing.com",received:"mail.apex-steeltraders.co (103.22.8.190)",auth:{spf:"pass",dkim:"pass",dmarc:"pass",tls:"1.2"},technique:"Vendor Account Compromise / Payment Redirection",reasoning:"Authenticated but Reply-To mismatches to apexsteel-billing.com. Requests urgent bank account change before payment. Classic payment redirect pattern.",iocs:["103.22.8.190"],links:[],attachments:["Invoice_SI-4471_Apex_Steel.pdf"]},
+{num:"04",risk:"safe",date:"Jul 08",subject:"Revised Leave &amp; Work-From-Home Policy - Effective 15 July 2026",from:"hr@solvexindustries.com",replyTo:"hr@solvexindustries.com",received:"mail.solvexindustries.com (192.168.14.19)",auth:{spf:"pass",dkim:"pass",dmarc:"pass",tls:"1.3"},technique:"None — legitimate",reasoning:"100% authenticated internal corporate email from internal mail server. No external links or attachments.",iocs:[],links:[],attachments:[]},
+{num:"05",risk:"critical",date:"Jul 09",subject:"Confidential - Immediate Wire Transfer Required (Time Sensitive)",from:"rajeev.malhotra.md@gmail-corpmail.com",replyTo:"rajeev.malhotra.md@gmail-corpmail.com",received:"smtp-relay-88.freemailhost.io (45.137.22.9)",auth:{spf:"none",dkim:"none",dmarc:"none",tls:"None"},technique:"Business Email Compromise (BEC) — CEO Fraud",reasoning:"Impersonates MD using consumer-lookalike domain. Zero authentication. Urgency tactic (board meeting, confidential acquisition). Demands USD 18,500 wire transfer.",iocs:["45.137.22.9","gmail-corpmail.com"],links:[],attachments:[]},
+{num:"06",risk:"safe",date:"Jul 09",subject:"Q1_Vendor_Compliance_Report.xlsx has been shared with you",from:"drive-shares-noreply@google.com",replyTo:"drive-shares-noreply@google.com",received:"mail-sor-f89.google.com (209.85.220.89)",auth:{spf:"pass",dkim:"pass",dmarc:"pass",tls:"1.3"},technique:"None — legitimate",reasoning:"Fully authenticated message from official Google infrastructure. Link points strictly to docs.google.com. Legitimate work context.",iocs:[],links:["https://docs.google.com/spreadsheets/d/1kQ3z-example-fileid-9f2/edit"],attachments:[]},
+{num:"07",risk:"critical",date:"Jul 10",subject:"Unusual sign-in activity detected on your Microsoft account",from:"security-noreply@micros0ft-online.com",replyTo:"no-reply@micros0ft-online.com",received:"host-77-91-134-6.vpn-exit.net (77.91.134.6)",auth:{spf:"fail",dkim:"fail",dmarc:"fail",tls:"None"},technique:"Homoglyph Typosquatting + Credential Phishing",reasoning:"Homoglyph '0' substitution in micros0ft-online.com. SPF/DKIM/DMARC all fail. Sent from VPN exit node. 12-hour urgency deadline. Credential-harvesting URL encodes victim username.",iocs:["77.91.134.6","login.micros0ft-online.com"],links:["http://login.micros0ft-online.com/secure/verify-identity?ref=aditya.rao"],attachments:[]},
+{num:"08",risk:"medium",date:"Jul 10",subject:"Exciting Career Opportunity - Senior Finance Role (Immediate Response Needed)",from:"neha.kapoor.hr@talentbridge-recruiters.net",replyTo:"neha.kapoor.hr@talentbridge-recruiters.net",received:"mail.talentbridge-recruiters.net (156.213.44.71)",auth:{spf:"pass",dkim:"pass",dmarc:"none",tls:"1.2"},technique:"PII Harvesting / Social Engineering",reasoning:"DMARC not enforced. Requests salary slip and PAN card within 24hrs. Unsolicited headhunter lure with ZIP attachment. High PII exfiltration risk.",iocs:["156.213.44.71","720bb323679ae825794a5f2e13b6f3286c8adf40ee76a6936a93553447c877b9"],links:[],attachments:["JD_SeniorFinanceManager_Client.zip"]},
+{num:"09",risk:"safe",date:"Jul 11",subject:"Your TallyPrime Cloud Subscription Renewal Invoice - INV-88213",from:"billing@tallysolutions.com",replyTo:"billing@tallysolutions.com",received:"mta-out.tallysolutions.com (203.0.113.44)",auth:{spf:"pass",dkim:"pass",dmarc:"pass",tls:"1.3"},technique:"None — legitimate",reasoning:"Genuine vendor communication. Fully authenticated headers. Explicitly notes no bank details changed. PDF invoice (not macro-enabled).",iocs:[],links:[],attachments:["INV-88213_TallyPrime_Renewal.pdf"]},
+{num:"10",risk:"critical",date:"Jul 11",subject:"CONGRATULATIONS!!! YOU HAVE WON USD 1,000,000 IN THE INTERNATIONAL EMAIL LOTTERY",from:"claims.department009@yandex-mailer.com",replyTo:"agent.williams.claims@outlook-verify.info",received:"unknown-relay-node4.freehosting-mail.com (185.220.101.44)",auth:{spf:"fail",dkim:"fail",dmarc:"fail",tls:"None"},technique:"Advance-Fee (419) / Lottery Fraud",reasoning:"Classic 419 advance-fee scam. SPF/DKIM/DMARC all fail. Sent from Tor/anonymizing relay. Demands USD 250 processing fee and ID copy within 48 hours.",iocs:["185.220.101.44","claim-your-prize-now.lottery-verify.info","outlook-verify.info"],links:["http://claim-your-prize-now.lottery-verify.info/claim?ref=44921"],attachments:[]},
+{num:"11",risk:"critical",date:"Jul 12",subject:"Quick request before my flight",from:"suresh.iyer@solvexindustries.com",replyTo:"s.iyer.cfo.travel@outlook.com",received:"mail.solvexindustries.com (192.168.14.19)",auth:{spf:"pass",dkim:"pass",dmarc:"pass",tls:"1.3"},technique:"Gift Card BEC Fraud — CFO Impersonation",reasoning:"From header is legitimate but Reply-To hijacks replies to attacker-controlled outlook address. Exploits authority bias (CFO) and time pressure (20 min). Gift card codes are untraceable.",iocs:["s.iyer.cfo.travel@outlook.com"],links:[],attachments:[]},
+{num:"12",risk:"safe",date:"Jul 12",subject:"Reminder: Mandatory Security Awareness Training - Due This Friday",from:"infosec@solvexindustries.com",replyTo:"infosec@solvexindustries.com",received:"mail.solvexindustries.com (192.168.14.19)",auth:{spf:"pass",dkim:"pass",dmarc:"pass",tls:"1.3"},technique:"None — legitimate",reasoning:"100% authenticated internal corporate email. No external links or attachments. Standard Q3 security training reminder.",iocs:[],links:[],attachments:[]},
+{num:"13",risk:"critical",date:"Jul 13",subject:"Pending Invoice - Please Review &amp; Process on Priority",from:"accounts.receivable@shreeganesh-logistics.in",replyTo:"accounts.receivable@shreeganesh-logistics.in",received:"webmail-host-4.sharedhosting-cluster.com (41.203.88.17)",auth:{spf:"fail",dkim:"none",dmarc:"fail",tls:"None"},technique:"VBA Macro Dropper (.docm) + Phishing URL",reasoning:"Explicitly instructs recipient to enable macros. SPF/DKIM/DMARC fail. IP from unrelated hosting cluster. Domain-in-subdomain spoofing. .docm attachment is a VBA macro ransomware dropper.",iocs:["41.203.88.17","shreeganesh-logistics.in.invoice-view-secure.com","1659174a0b84c31ff2fc7b50fc07c0973964d33a3897ba38c07bece46805c17d"],links:["http://shreeganesh-logistics.in.invoice-view-secure.com/download?file=inv2207"],attachments:["Pending_Invoice_Challan_Details.docm"]}
+];
+
+const IOCS=[
+{type:"Domain",indicator:"solvex-industries-helpdesk.com",threat:"Typosquat Phishing",source:"Email 02",action:"SEG & DNS Block"},
+{type:"Domain",indicator:"verify-account-secure.com",threat:"Phishing Infrastructure",source:"Email 02",action:"Firewall Block"},
+{type:"Domain",indicator:"mail-secure-verify.net",threat:"Phishing Reply-To Host",source:"Email 02",action:"Firewall Block"},
+{type:"Domain",indicator:"gmail-corpmail.com",threat:"CEO Fraud Domain",source:"Email 05",action:"SEG Block"},
+{type:"Domain",indicator:"login.micros0ft-online.com",threat:"Microsoft Homoglyph Phishing",source:"Email 07",action:"DNS Sinkhole"},
+{type:"Domain",indicator:"lottery-verify.info",threat:"Advance-Fee Scam",source:"Email 10",action:"Web Gateway Block"},
+{type:"Domain",indicator:"outlook-verify.info",threat:"Phishing Reply-To",source:"Email 10",action:"SEG Block"},
+{type:"Email Address",indicator:"s.iyer.cfo.travel@outlook.com",threat:"BEC Reply-To Hijack",source:"Email 11",action:"Mail Filter Rule"},
+{type:"Domain",indicator:"shreeganesh-logistics.in.invoice-view-secure.com",threat:"Macro Dropper Host",source:"Email 13",action:"Proxy & DNS Block"},
+{type:"IPv4",indicator:"193.41.77.108",threat:"Russian Phishing Relay",source:"Email 02",action:"Perimeter Firewall DROP"},
+{type:"IPv4",indicator:"45.137.22.9",threat:"Netherlands BEC Host",source:"Email 05",action:"Perimeter Firewall DROP"},
+{type:"IPv4",indicator:"77.91.134.6",threat:"VPN Exit Node / Phishing",source:"Email 07",action:"Perimeter Firewall DROP"},
+{type:"IPv4",indicator:"185.220.101.44",threat:"Netherlands Scam Relay",source:"Email 10",action:"Perimeter Firewall DROP"},
+{type:"IPv4",indicator:"41.203.88.17",threat:"Malicious Hosting Cluster",source:"Email 13",action:"Perimeter Firewall DROP"},
+{type:"Filename",indicator:"Pending_Invoice_Challan_Details.docm",threat:"VBA Ransomware Dropper",source:"Email 13",action:"EDR Signature Block"},
+{type:"SHA-256",indicator:"1659174a0b84c31ff2fc7b50fc07c0973964d33a3897ba38c07bece46805c17d",threat:"VBA Macro Dropper Hash",source:"Email 13",action:"EDR / AV Signature"},
+{type:"Filename",indicator:"JD_SeniorFinanceManager_Client.zip",threat:"Suspicious Archive / PII Lure",source:"Email 08",action:"Gateway Quarantine"},
+{type:"SHA-256",indicator:"720bb323679ae825794a5f2e13b6f3286c8adf40ee76a6936a93553447c877b9",threat:"Suspicious ZIP Hash",source:"Email 08",action:"EDR / AV Signature"}
+];
+
+const DAY_OFFSETS={"Jul 03":0,"Jul 05":18,"Jul 07":36,"Jul 08":45,"Jul 09":54,"Jul 10":63,"Jul 11":72,"Jul 12":81,"Jul 13":90};
+
+function animateCount(el,target,dur=900){
+  let start=null;
+  function step(ts){if(!start)start=ts;const p=Math.min((ts-start)/dur,1);el.textContent=Math.round(target*p);if(p<1)requestAnimationFrame(step)}
+  requestAnimationFrame(step)
+}
+
+function buildCards(){
+  animateCount(document.getElementById('cnt-total'),13);
+  animateCount(document.getElementById('cnt-crit'),6);
+  animateCount(document.getElementById('cnt-med'),2);
+  animateCount(document.getElementById('cnt-safe'),5);
+  animateCount(document.getElementById('cnt-ioc'),IOCS.length);
+  animateCount(document.getElementById('cnt-dmarc'),6);
+}
+
+function buildChart(){
+  const ctx=document.getElementById('pieChart').getContext('2d');
+  new Chart(ctx,{type:'doughnut',data:{labels:['Suspicious','Medium','Safe'],datasets:[{data:[6,2,5],backgroundColor:['#ef4444','#f59e0b','#10b981'],borderColor:['#0b0d14'],borderWidth:3,hoverOffset:8}]},options:{cutout:'65%',animation:{animateRotate:true,duration:1200},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.label+': '+c.raw+' ('+Math.round(c.raw/13*100)+'%)'}}}}})}
+
+function buildTimeline(){
+  const c=document.getElementById('timeline-items');
+  EMAILS.forEach((e,i)=>{
+    const off=DAY_OFFSETS[e.date]||0;
+    const d=document.createElement('div');
+    d.className='tl-item';d.style.animationDelay=i*40+'ms';
+    d.innerHTML='<span class="tl-label">Email '+e.num+'</span><div class="tl-bar-wrap"><span class="tl-spacer" style="width:'+off+'%"></span><span class="tl-bar '+e.risk+'" title="'+e.subject+'">'+e.date+'</span></div>';
+    c.appendChild(d)
+  })
+}
+
+function authPill(label,val){
+  const lc=val.toLowerCase();
+  const cls=lc==='pass'?'pass':lc==='fail'?'fail':'none';
+  return '<span class="auth-pill '+cls+'">'+label+': '+val.toUpperCase()+'</span>'
+}
+
+function riskBadge(r){
+  const map={safe:'safe',medium:'medium',critical:'critical'};
+  const lbl={safe:'SAFE',medium:'MEDIUM RISK',critical:'SUSPICIOUS'};
+  return '<span class="badge '+map[r]+'">'+lbl[r]+'</span>'
+}
+
+function buildEmailCards(){
+  const list=document.getElementById('email-list');
+  EMAILS.forEach(e=>{
+    const card=document.createElement('div');
+    card.className='email-card '+e.risk+'-card';
+    card.id='ecard-'+e.num;
+    const iocsHtml=e.iocs.length?e.iocs.map(function(i){return '<span class="ioc-tag">'+i+'</span>'}).join(''):'<span style="color:var(--text-lo);font-size:11px">None detected</span>';
+    const linksHtml=e.links.length?e.links.map(function(l){return '<span class="ioc-tag">'+l+'</span>'}).join(''):'<span style="color:var(--text-lo);font-size:11px">None</span>';
+    const attHtml=e.attachments.length?e.attachments.map(function(a){return '<span class="ioc-tag">'+a+'</span>'}).join(''):'<span style="color:var(--text-lo);font-size:11px">None</span>';
+    card.innerHTML=
+      '<div class="email-header" onclick="toggleCard(\''+e.num+'\')">'+
+        '<span class="email-num">'+e.num+'/13</span>'+
+        '<span class="email-subject">'+e.subject+'</span>'+
+        riskBadge(e.risk)+
+        '<span class="email-date">'+e.date+'</span>'+
+        '<span class="chevron">&#9660;</span>'+
+      '</div>'+
+      '<div class="email-body" id="ebody-'+e.num+'">'+
+        '<div class="email-body-inner">'+
+          '<div class="field-group"><div class="field-label">From</div><div class="field-value">'+e.from+'</div></div>'+
+          '<div class="field-group"><div class="field-label">Reply-To</div><div class="field-value">'+e.replyTo+'</div></div>'+
+          '<div class="field-group"><div class="field-label">Received From</div><div class="field-value">'+e.received+'</div></div>'+
+          '<div class="field-group"><div class="field-label">Authentication</div><div class="auth-row">'+
+            authPill('SPF',e.auth.spf)+authPill('DKIM',e.auth.dkim)+authPill('DMARC',e.auth.dmarc)+
+            '<span class="auth-pill '+(e.auth.tls!=='None'?'pass':'none')+'">TLS '+e.auth.tls+'</span>'+
+          '</div></div>'+
+          '<div class="field-group"><div class="field-label">Attack Technique</div><div class="field-value hi">'+e.technique+'</div></div>'+
+          '<div class="field-group"><div class="field-label">Attachments</div><div>'+attHtml+'</div></div>'+
+          '<div class="field-group detail-wide"><div class="field-label">Extracted IOCs</div><div>'+iocsHtml+'</div></div>'+
+          '<div class="field-group detail-wide"><div class="field-label">Extracted Links</div><div>'+linksHtml+'</div></div>'+
+          '<div class="field-group detail-wide"><div class="field-label">Analyst Reasoning</div><div class="reasoning-box">'+e.reasoning+'</div></div>'+
+        '</div>'+
+      '</div>';
+    list.appendChild(card)
+  })
+}
+
+function toggleCard(n){document.getElementById('ecard-'+n).classList.toggle('open')}
+
+var activeFilter='all';
+function typeClass(t){return{'Domain':'domain','IPv4':'ipv4','Filename':'filename','SHA-256':'sha256','Email Address':'emailaddr'}[t]||'domain'}
+
+function buildIOCTable(){
+  const tbody=document.getElementById('ioc-body');
+  IOCS.forEach(function(ioc){
+    const tr=document.createElement('tr');
+    tr.dataset.type=ioc.type;tr.dataset.indicator=ioc.indicator.toLowerCase();
+    tr.dataset.threat=ioc.threat.toLowerCase();tr.dataset.source=ioc.source.toLowerCase();
+    tr.innerHTML='<td><span class="ioc-type-badge '+typeClass(ioc.type)+'">'+ioc.type+'</span></td>'+
+      '<td><span class="ioc-indicator">'+ioc.indicator+'</span></td>'+
+      '<td>'+ioc.threat+'</td><td>'+ioc.source+'</td><td>'+ioc.action+'</td>';
+    tbody.appendChild(tr)
+  });
+  document.getElementById('ioc-count').textContent=IOCS.length+' of '+IOCS.length+' shown'
+}
+
+function filterIOC(){
+  const q=document.getElementById('ioc-search').value.toLowerCase();
+  var vis=0;
+  document.querySelectorAll('#ioc-body tr').forEach(function(tr){
+    const mf=activeFilter==='all'||tr.dataset.type===activeFilter;
+    const ms=!q||tr.dataset.indicator.includes(q)||tr.dataset.threat.includes(q)||tr.dataset.source.includes(q)||tr.dataset.type.toLowerCase().includes(q);
+    const show=mf&&ms;
+    tr.classList.toggle('hidden',!show);
+    if(show)vis++
+  });
+  document.getElementById('ioc-count').textContent=vis+' of '+IOCS.length+' shown'
+}
+
+function setFilter(f){
+  activeFilter=f;
+  document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active')});
+  var ids={'all':'filter-all','Domain':'filter-Domain','IPv4':'filter-IPv4','Filename':'filter-Filename','SHA-256':'filter-SHA256','Email Address':'filter-EmailAddr'};
+  var btn=document.getElementById(ids[f]);
+  if(btn)btn.classList.add('active');
+  filterIOC()
+}
+
+function buildKanban(){
+  const cols={safe:'kanban-safe',medium:'kanban-medium',critical:'kanban-critical'};
+  const cc={safe:'safe-card',medium:'medium-card',critical:'crit-card'};
+  EMAILS.forEach(function(e){
+    const col=document.getElementById(cols[e.risk]);
+    if(!col)return;
+    const d=document.createElement('div');
+    d.className='kanban-card '+cc[e.risk];
+    d.innerHTML='<div class="kc-num">Email '+e.num+' &#x2014; '+e.date+'</div>'+
+      '<div class="kc-subject">'+e.subject+'</div>'+
+      '<div class="kc-tech">'+(e.technique.startsWith('None')?'&#10003; No threat detected':'&#x26A1; '+e.technique)+'</div>';
+    col.appendChild(d)
+  })
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  buildCards();buildChart();buildTimeline();buildEmailCards();buildIOCTable();buildKanban()
+});
+</script>
+</body>
+</html>

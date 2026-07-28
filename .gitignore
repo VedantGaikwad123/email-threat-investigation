@@ -2,7 +2,6 @@
 parsed_iocs.json
 iocs_export.csv
 analysis_output.json
-*.json
 
 # OS & editor artifacts
 .DS_Store
@@ -18,3 +17,13 @@ __pycache__/
 # Python env
 venv/
 .env
+
+# Internal review / advisory notes (not part of the deliverable)
+project_improvement_advice.md
+
+# Raw case briefing PDF and internal project report (large binary / internal doc)
+emails.pdf
+PROJECT_REPORT.md
+
+# Dashboard build helper — dashboard.html is committed directly
+generate_dashboard.py

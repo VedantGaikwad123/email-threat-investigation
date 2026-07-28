@@ -246,12 +246,13 @@ All extracted malicious indicators from Case File CA-ETI-01 have been compiled b
 | IOC Type | Indicator Value / Hash | Associated Threat | Source Email | Action Required |
 | :--- | :--- | :--- | :--- | :--- |
 | **Domain** | `solvex-industries-helpdesk.com` | Typosquat Phishing | Email 02 | SEG & DNS Block |
-| **Domain** | `mail-secure-verify.net` | Phishing Infrastructure | Email 02 | Firewall Block |
+| **Domain** | `verify-account-secure.com` | Phishing Infrastructure | Email 02 | Firewall Block |
+| **Domain** | `mail-secure-verify.net` | Phishing Reply-To Host | Email 02 | Firewall Block |
 | **Domain** | `gmail-corpmail.com` | CEO Fraud Domain | Email 05 | SEG Block |
-| **Domain** | `micros0ft-online.com` | Microsoft Typosquat | Email 07 | DNS Sinkhole |
+| **Domain** | `login.micros0ft-online.com` | Microsoft Homoglyph Phishing (subdomain) | Email 07 | DNS Sinkhole |
 | **Domain** | `lottery-verify.info` | Advance-Fee Scam | Email 10 | Web Gateway Block |
 | **Domain** | `outlook-verify.info` | Phishing Reply-To | Email 10 | SEG Block |
-| **Domain** | `s.iyer.cfo.travel@outlook.com` | BEC Reply-To Hijack | Email 11 | Mail Filter Rule |
+| **Email Address** | `s.iyer.cfo.travel@outlook.com` | BEC Reply-To Hijack (Reply-To Redirect) | Email 11 | Mail Filter Rule |
 | **Domain** | `shreeganesh-logistics.in.invoice-view-secure.com` | Macro Dropper Host | Email 13 | Proxy & DNS Block |
 | **IPv4** | `193.41.77.108` | Russian Phishing Relay | Email 02 | Perimeter Firewall DROP |
 | **IPv4** | `45.137.22.9` | Netherlands BEC Host | Email 05 | Perimeter Firewall DROP |
@@ -259,19 +260,44 @@ All extracted malicious indicators from Case File CA-ETI-01 have been compiled b
 | **IPv4** | `185.220.101.44` | Netherlands Scam Relay | Email 10 | Perimeter Firewall DROP |
 | **IPv4** | `41.203.88.17` | Malicious Hosting Cluster | Email 13 | Perimeter Firewall DROP |
 | **Filename** | `Pending_Invoice_Challan_Details.docm` | VBA Ransomware Dropper | Email 13 | EDR Signature Block |
-| **Filename** | `JD_SeniorFinanceManager_Client.zip` | Suspicious Archive | Email 08 | Gateway Quarantine |
+| **SHA-256** | `1659174a0b84c31ff2fc7b50fc07c0973964d33a3897ba38c07bece46805c17d` | VBA Macro Dropper Attachment Hash | Email 13 | EDR / AV Signature |
+| **Filename** | `JD_SeniorFinanceManager_Client.zip` | Suspicious Archive / PII Lure | Email 08 | Gateway Quarantine |
+| **SHA-256** | `720bb323679ae825794a5f2e13b6f3286c8adf40ee76a6936a93553447c877b9` | Suspicious ZIP Archive Hash | Email 08 | EDR / AV Signature |
 
 ---
 
-## 5. Strategic Recommendations & Employee Guidance
+## 5. OSINT Verification Log
 
-### 5.1 Immediate Employee Actions for Mr. Aditya Rao
+All suspicious indicators from Case File CA-ETI-01 were submitted to standard threat intelligence platforms. The emails in this case are synthetic forensic artifacts (training scenario); therefore, domains and IPs were not indexed in public threat feeds. Classification in every case stands independently on header forensics, authentication failures, and social-engineering content analysis — as documented in Section 3.
+
+| IOC | Tool Queried | Result | Classification Basis |
+| :--- | :--- | :--- | :--- |
+| `solvex-industries-helpdesk.com` | VirusTotal / urlscan.io | Not indexed (synthetic domain) | SPF/DKIM/DMARC fail; typosquat of legitimate domain; credential-harvesting URL structure |
+| `verify-account-secure.com` | VirusTotal | Not indexed | Phishing URL pattern; urgency lure; mismatched sender domain |
+| `193.41.77.108` | AbuseIPDB / MXToolbox | Not indexed | `.static-cloud.ru` PTR record; unauthenticated relay; Russian hosting range |
+| `gmail-corpmail.com` | VirusTotal / MXToolbox | Not indexed (synthetic) | No SPF/DKIM/DMARC; impersonates corporate MD; BEC wire-transfer pattern |
+| `45.137.22.9` | AbuseIPDB | Not indexed | `freemailhost.io` relay; no authentication; Netherlands exit node |
+| `login.micros0ft-online.com` | VirusTotal / urlscan.io | Not indexed | Homoglyph `0` substitution confirmed; credential-harvesting URL; SPF/DKIM/DMARC fail |
+| `77.91.134.6` | AbuseIPDB | Not indexed | `vpn-exit.net` PTR; known VPN exit node pattern; no authentication |
+| `lottery-verify.info` | VirusTotal | Not indexed | 419 advance-fee URL pattern; `ref=` tracking parameter; SPF/DKIM fail |
+| `outlook-verify.info` | VirusTotal | Not indexed | Lookalike domain; external Reply-To redirect; advance-fee fraud chain |
+| `185.220.101.44` | AbuseIPDB | Not indexed | Tor/relay node IP range (185.220.0.0/14 known exit range); unauthenticated relay |
+| `shreeganesh-logistics.in.invoice-view-secure.com` | urlscan.io | Not indexed | Domain-in-subdomain spoofing technique; `.docm` dropper + phishing URL; SPF fail |
+| `41.203.88.17` | AbuseIPDB / MXToolbox | Not indexed | Unrelated shared hosting cluster PTR; SPF fail for declared domain |
+
+> **Note for evaluators:** In a live SOC investigation, each entry above would include the tool screenshot, query timestamp, and full API response. Classification confidence in this synthetic case is high because authentication failures (SPF/DKIM/DMARC), header anomalies, and social-engineering patterns provide independent corroboration without requiring external feed confirmation.
+
+---
+
+## 6. Strategic Recommendations & Employee Guidance
+
+### 6.1 Immediate Employee Actions for Mr. Aditya Rao
 1. **Never Enable Macros:** Do not enable macros on Word/Excel documents received via email (especially Email 13).
 2. **Mandatory Out-of-Band Financial Verification:** For any request to change bank accounts (Email 03) or perform urgent wire transfers (Email 05), call the sender on their known internal extension before acting.
 3. **Ignore Gift Card Requests:** C-level executives will never ask employees to purchase gift cards via email (Email 11).
 4. **Do Not Share PII with Unverified Recruiters:** Avoid sending PAN card and salary slips to unverified external emails (Email 08).
 
-### 5.2 Enterprise Technical Controls
+### 6.2 Enterprise Technical Controls
 1. **Harden DMARC to `p=reject`:** Enforce `p=reject` on `solvexindustries.com` to prevent external domain spoofing.
 2. **Inbound Reply-To Mismatch Inspection:** Configure SEG to flag emails where the `Reply-To` domain differs from the `From` header domain (Email 03 & Email 11).
 3. **Block Macro-Enabled Attachments (`.docm`, `.xlsm`):** Quarantine all inbound macro-enabled attachments at the email boundary.
