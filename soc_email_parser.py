@@ -6,6 +6,7 @@ Version: 2.0 — Fixed critical attachment detection bypasses, Received IP extra
           proper private IP filtering, RTLO detection, CSV export, and verbose logging.
 """
 
+import sys
 import os
 import re
 import json
@@ -52,6 +53,15 @@ def setup_logger(verbose: bool) -> logging.Logger:
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     return logger
+
+
+def is_known_good_domain(domain: str, known_good_set: set) -> bool:
+    domain = domain.lower().strip()
+    for gd in known_good_set:
+        gd = gd.lower().strip()
+        if domain == gd or domain.endswith('.' + gd):
+            return True
+    return False
 
 
 # ─── Core Parser Class ────────────────────────────────────────────────────────
@@ -185,10 +195,10 @@ class SOCEmailParser:
 
     # ── Report Generator ───────────────────────────────────────────────────
     def generate_report(self) -> dict:
-        # Flag domains NOT in the known-good list
+        # Flag domains NOT in the known-good list (with exact label boundary check)
         external_domains = sorted([
             d for d in self.iocs["domains"]
-            if not any(d.endswith(gd) for gd in KNOWN_GOOD_DOMAINS)
+            if not is_known_good_domain(d, KNOWN_GOOD_DOMAINS)
         ])
 
         return {
@@ -278,26 +288,34 @@ Examples:
 
     logger = setup_logger(args.verbose)
 
-    if args.eml:
-        parser = SOCEmailParser(args.eml, logger)
-        parser.parse()
-        report = parser.generate_report()
-        with open(args.output, 'w', encoding='utf-8') as f:
-            json.dump(report, f, indent=2)
-        logger.info(f"Analysis complete → {args.output}")
-        if args.export_csv:
-            export_iocs_csv([report], args.export_csv, logger)
+    try:
+        if args.eml:
+            parser = SOCEmailParser(args.eml, logger)
+            parser.parse()
+            report = parser.generate_report()
+            with open(args.output, 'w', encoding='utf-8') as f:
+                json.dump(report, f, indent=2)
+            logger.info(f"Analysis complete → {args.output}")
+            if args.export_csv:
+                export_iocs_csv([report], args.export_csv, logger)
 
-    elif args.dir:
-        reports = analyze_directory(args.dir, logger)
-        with open(args.output, 'w', encoding='utf-8') as f:
-            json.dump(reports, f, indent=2)
-        logger.info(f"Analyzed {len(reports)} email(s) → {args.output}")
-        if args.export_csv:
-            export_iocs_csv(reports, args.export_csv, logger)
+        elif args.dir:
+            reports = analyze_directory(args.dir, logger)
+            with open(args.output, 'w', encoding='utf-8') as f:
+                json.dump(reports, f, indent=2)
+            logger.info(f"Analyzed {len(reports)} email(s) → {args.output}")
+            if args.export_csv:
+                export_iocs_csv(reports, args.export_csv, logger)
 
-    else:
-        arg_parser.print_help()
+        else:
+            arg_parser.print_help()
+
+    except FileNotFoundError as e:
+        logger.error(f"File not found: {e}")
+        sys.exit(1)
+    except Exception as e:
+        logger.error(f"Execution error: {e}")
+        sys.exit(1)
 
 
 if __name__ == '__main__':
