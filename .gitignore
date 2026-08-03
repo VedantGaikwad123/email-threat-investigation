@@ -20,6 +20,7 @@ venv/
 
 # Internal review / advisory notes (not part of the deliverable)
 project_improvement_advice.md
+errors_found_post_fix_review.md
 
 # Raw case briefing PDF and internal project report (large binary / internal doc)
 emails.pdf
